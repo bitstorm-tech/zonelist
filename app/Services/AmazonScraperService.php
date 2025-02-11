@@ -74,50 +74,12 @@ class AmazonScraperService
 
             $categoryName = trim(str_replace('Bestseller in', '', $category->getElementsByTagName('h2')->item(0)->nodeValue));
             // *[@id="anonCarousel1"]/ol/li[1]/div/div[1]/div[1]/span
+            $product = new Product;
+            $product->category = $categoryName;
 
-            $products[] = new Product($categoryName);
-
-            // $product = [
-            //     'category' => $this->getNodeValue($xpath, './/span[contains(@class, "a-size-small")]', $item),
-            //     'position' => $this->getNodeValue($xpath, './/span[contains(@class, "zg-badge-text")]', $item),
-            //     'title' => $this->getNodeValue($xpath, './/div[contains(@class, "p13n-sc-truncate")]', $item),
-            //     'price' => $this->getNodeValue($xpath, './/span[contains(@class, "p13n-sc-price")]', $item),
-            //     'image' => $this->getNodeAttribute($xpath, './/img', 'src', $item),
-            //     'rating' => $this->getNodeValue($xpath, './/span[contains(@class, "a-icon-alt")]', $item),
-            //     'url' => $this->getNodeAttribute($xpath, './/a[contains(@class, "a-link-normal")]', 'href', $item),
-            // ];
-
-            // // Clean up position number
-            // if ($product['position']) {
-            //     $product['position'] = (int) str_replace('#', '', $product['position']);
-            // }
-
-            // // Convert relative URLs to absolute
-            // if ($product['url'] && strpos($product['url'], 'http') !== 0) {
-            //     $product['url'] = 'https://www.amazon.de'.$product['url'];
-            // }
-
-            // if (! empty($product['title'])) {
-            //     $products[] = $product;
-            // }
+            $products[] = $product;
         }
 
-        dd($products);
-
         return $products;
-    }
-
-    private function getNodeValue(DOMXPath $xpath, string $query, $contextNode): ?string
-    {
-        $node = $xpath->query($query, $contextNode)->item(0);
-
-        return $node ? trim($node->nodeValue) : null;
-    }
-
-    private function getNodeAttribute(DOMXPath $xpath, string $query, string $attribute, $contextNode): ?string
-    {
-        $node = $xpath->query($query, $contextNode)->item(0);
-
-        return $node ? $node->getAttribute($attribute) : null;
     }
 }

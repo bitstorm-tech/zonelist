@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Services\AmazonScraperService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
 
 class AmazonScraperController extends Controller
 {
@@ -16,6 +17,13 @@ class AmazonScraperController extends Controller
     {
         try {
             $products = $this->scraperService->getBestsellers();
+
+            // dd($products);
+
+            Product::unguard();
+            foreach ($products as $product) {
+                $product->save();
+            }
 
             return response()->json([
                 'success' => true,
