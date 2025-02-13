@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AmazonScraperController;
+use App\Livewire\Bestsellers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/api/bestsellers', [AmazonScraperController::class, 'getBestsellers']);
+Route::get('/', Bestsellers::class);
