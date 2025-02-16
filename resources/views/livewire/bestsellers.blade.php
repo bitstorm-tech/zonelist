@@ -1,23 +1,36 @@
-<div x-data="{ activeTab: {{ $activeTab }} }" class="p-8">
-    <div class="tabs tabs-boxed mb-4 bg-base-100">
+<div x-data="{ activeTab: 1 }" class="flex flex-col gap-6 p-8">
+    <div>
+        Die Bestseller der vergangenen
+        <select class="mx-2">
+            <option>7</option>
+            <option>14</option>
+            <option>30</option>
+        </select>
+        Tage
+    </div>
+    <div role="tablist" class="tabs tabs-box">
         @foreach (range(1, 10) as $tab)
-            <button @click="activeTab = {{ $tab }}; $wire.selectTab({{ $tab }})"
-                :class="{ 'tab-active': activeTab === {{ $tab }} }" class="tab"
-                wire:key="tab-{{ $tab }}">
+            <a
+                @click="activeTab = {{ $tab }}"
+                :class="{ 'tab-active': activeTab === {{ $tab }} }"
+                class="tab"
+                wire:key="tab-{{ $tab }}"
+            >
                 Category {{ $tab }}
-            </button>
+            </a>
         @endforeach
     </div>
-
-    @foreach (range(1, 10) as $content)
-        <div x-show="activeTab === {{ $content }}" class="p-6 rounded-lg shadow-lg {{ $colors[$loop->index] }}"
-            wire:key="content-{{ $content }}">
-            <h2 class="text-2xl font-bold mb-4">Bestsellers in Category {{ $content }}</h2>
+    @foreach (range(1, 10) as $tab)
+        <div
+            x-show="activeTab === {{ $tab }}"
+            class="bg-base-200 rounded-lg p-6 shadow-lg"
+            wire:key="content-{{ $tab }}"
+        >
+            <h2 class="mb-4 text-2xl font-bold">Bestsellers in Category {{ $tab }}</h2>
             <div class="space-y-4">
                 <div class="skeleton h-16"></div>
                 <div class="skeleton h-16"></div>
                 <div class="skeleton h-16"></div>
-                <div>{{ $colors[$loop->index] }}</div>
             </div>
         </div>
     @endforeach
