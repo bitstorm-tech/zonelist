@@ -32,8 +32,20 @@ class AmazonScraperService
         ]);
     }
 
+    public function __invoke(): mixed
+    {
+        $products = $this->getBestsellers();
+
+        Product::unguard();
+        foreach ($products as $product) {
+            $product->save();
+        }
+    }
+
     /**
-     * @throws GuzzleException
+     * @return Product[]
+     *
+     * @throws GuzzleException*
      */
     public function getBestsellers(): array
     {
@@ -53,6 +65,9 @@ class AmazonScraperService
         return $response->getBody()->getContents();
     }
 
+    /**
+     * @return Product[]
+     */
     private function parseProducts(string $html): array
     {
         libxml_use_internal_errors(true);

@@ -18,8 +18,6 @@ class AmazonScraperController extends Controller
         try {
             $products = $this->scraperService->getBestsellers();
 
-            // dd($products);
-
             Product::unguard();
             foreach ($products as $product) {
                 $product->save();
