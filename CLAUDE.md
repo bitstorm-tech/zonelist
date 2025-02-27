@@ -10,6 +10,7 @@
 - **Laravel Tinker:** `php artisan tinker` (interactive REPL)
 
 ## Code Style
+- Use Laravel version 12 or higher
 - Use strong typing with type annotations everywhere
 - Follow Laravel/PHP PSR-12 coding standards
 - Use Livewire for reactive components
