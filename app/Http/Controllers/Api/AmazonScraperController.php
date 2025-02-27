@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Product;
-use App\Services\AmazonScraperService;
+use App\Services\BestsellersScraperService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
-class AmazonScraperController extends Controller
+class BestsellersScraperController extends Controller
 {
     public function __construct(
-        private readonly AmazonScraperService $scraperService
+        private readonly BestsellersScraperService $scraperService
     ) {}
 
     public function getBestsellers(): JsonResponse

@@ -10,7 +10,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 
-class AmazonScraperService
+class BestsellersScraperService
 {
     private Client $client;
 
