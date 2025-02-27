@@ -93,6 +93,8 @@ class BestsellersScraperService
                 continue;
             }
 
+            dd($category);
+
             $categoryName = trim(str_replace('Bestseller in', '', $category->getElementsByTagName('h2')->item(0)->nodeValue));
             // *[@id="anonCarousel1"]/ol/li[1]/div/div[1]/div[1]/span
             $product = new Product;

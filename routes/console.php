@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\AmazonScraperService;
+use App\Services\BestsellersScraperService;
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::call(new AmazonScraperService)->everyMinute();
+Schedule::call(new BestsellersScraperService)->dailyAt('23:00');
