@@ -32,14 +32,20 @@ class AmazonScraperService
         ]);
     }
 
-    public function __invoke(): mixed
+    public function __invoke(): void
     {
+        Log::info('Running scraper task ...');
+
         $products = $this->getBestsellers();
+
+        Log::info("Got {count($products)}");
 
         Product::unguard();
         foreach ($products as $product) {
             $product->save();
         }
+
+        Log::info('Scraping done');
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php
 
-use App\Services\TestService;
+use App\Services\AmazonScraperService;
 use Illuminate\Support\Facades\Schedule;
 
-// Schedule::call(new AmazonScraperService)->everyMinute();
-Schedule::call(new TestService)->everyMinute();
+Schedule::call(new AmazonScraperService)->everyMinute();
