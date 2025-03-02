@@ -1,5 +1,5 @@
 @import "tailwindcss";
 @source "../views";
 @plugin "daisyui" {
-    themes: "dracula";
+    themes: "business";
 }

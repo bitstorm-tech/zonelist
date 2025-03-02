@@ -28,9 +28,9 @@
         >
             <h2 class="mb-4 text-2xl font-bold">Bestsellers in Category {{ $categories[$index]["category"] }}</h2>
             <div class="space-y-4">
-                <div class="skeleton h-16"></div>
-                <div class="skeleton h-16"></div>
-                <div class="skeleton h-16"></div>
+                <div class="bg-base-300 h-16"></div>
+                <div class="bg-base-300 h-16"></div>
+                <div class="bg-base-300 h-16"></div>
             </div>
         </div>
     @endforeach

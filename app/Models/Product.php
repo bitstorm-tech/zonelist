@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $attributes = [
         'category' => '',
-        'position' => -1,
+        'rank' => -1,
         'title' => '',
         'price' => 0,
         'imageUrl' => '',

@@ -19,14 +19,11 @@ class BestsellersScraperController extends Controller
             $products = $this->scraperService->getBestsellers();
 
             Product::unguard();
-            foreach ($products as $product) {
-                $product->save();
-            }
+            // foreach ($products as $product) {
+            //     $product->save();
+            // }
 
-            return response()->json([
-                'success' => true,
-                'data' => $products,
-            ]);
+            return response();
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
