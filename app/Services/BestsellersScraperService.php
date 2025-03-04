@@ -85,7 +85,7 @@ class BestsellersScraperService
 
             Log::info("Got {$count} from category: {$categoryName}");
 
-            // array_push($products, $productsOfCategory);
+            array_push($products, ...$productsOfCategory);
         }
 
         return $products;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\BestsellersScraperService;
+use App\Http\Controllers\Api\BestsellersScraperController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/bestsellers', [BestsellersScraperService::class, 'getBestsellers'])->middleware('api.key');
+Route::get('/bestsellers', [BestsellersScraperController::class, 'getBestsellers'])->middleware('api.key');

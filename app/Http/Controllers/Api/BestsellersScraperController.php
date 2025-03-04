@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Product;
 use App\Services\BestsellersScraperService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 class BestsellersScraperController extends Controller
@@ -13,17 +14,17 @@ class BestsellersScraperController extends Controller
         private readonly BestsellersScraperService $scraperService
     ) {}
 
-    public function getBestsellers(): JsonResponse
+    public function getBestsellers(): Response|JsonResponse
     {
         try {
             $products = $this->scraperService->getBestsellers();
 
             Product::unguard();
-            // foreach ($products as $product) {
-            //     $product->save();
-            // }
+            foreach ($products as $product) {
+                $product->save();
+            }
 
-            return response();
+            return response()->noContent();
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
