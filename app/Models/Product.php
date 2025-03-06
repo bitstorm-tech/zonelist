@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $attributes = [
+        'run' => -1,
         'category' => '',
         'rank' => -1,
         'title' => '',

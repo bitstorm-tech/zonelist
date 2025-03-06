@@ -15,10 +15,10 @@ class BestsellersScraperService
 
     private $categorySubUrls = [
         'Amazon Renewed' => '/amazon-renewed',
-        // 'Amazon-Geräte & Zubehör' => '/amazon-devices',
-        // 'Auto & Motorrad' => '/automotive',
-        // 'Baby' => '/baby',
-        // 'Baumarkt' => '/diy',
+        'Amazon-Geräte & Zubehör' => '/amazon-devices',
+        'Auto & Motorrad' => '/automotive',
+        'Baby' => '/baby',
+        'Baumarkt' => '/diy',
         // 'Beleuchtung' => '/lighting',
         // 'Bücher' => '/books',
         // 'Bürobedarf & Schreibwaren' => '/officeproduct',
@@ -125,6 +125,8 @@ class BestsellersScraperService
             $product->rank = $this->extractProductRanking($productNode, $xpath);
             $product->title = $this->extractProductTitle($productNode, $xpath);
             $product->price = $this->extractProductPrice($productNode, $xpath);
+            $product->stars = $this->extractProductStars($productNode, $xpath);
+            $product->ratings = $this->extractProductRatings($productNode, $xpath);
 
             array_push($products, $product);
         }
@@ -174,8 +176,58 @@ class BestsellersScraperService
 
         $priceString = trim(str_replace([' ', ',', '.', '€'], '', $priceString));
 
-        Log::info("Price string: [$priceString]");
-
         return (int) $priceString;
+    }
+
+    private function extractProductStars(DOMElement $productNode, DOMXPath $xpath): float
+    {
+        $starsNode = $xpath->query('./div/div/div[2]/span/div/div/div/div[1]/div/a/i/span', $productNode);
+
+        if ($starsNode->length === 0) {
+            Log::warning('Product has no stars!');
+
+            return 0;
+        }
+
+        $starsString = $starsNode->item(0)->nodeValue;
+
+        if (strlen($starsString) == 0) {
+            Log::warning('No product stars found!');
+
+            return 0;
+        }
+
+        $starsStringParts = explode(' ', $starsString);
+
+        if (count($starsStringParts) < 1) {
+            Log::warning("Can't split stars string [$starsString]!");
+
+            return 0;
+        }
+
+        return (float) str_replace(',', '.', $starsStringParts[0]);
+    }
+
+    private function extractProductRatings(DOMElement $productNode, DOMXPath $xpath): int
+    {
+        $ratingsNode = $xpath->query('./div/div/div[2]/span/div/div/div/div[1]/div/a/span', $productNode);
+
+        if ($ratingsNode->length === 0) {
+            Log::warning('Product has no ratings!');
+
+            return 0;
+        }
+
+        $ratingsString = $ratingsNode->item(0)->nodeValue;
+
+        if (strlen($ratingsString) == 0) {
+            Log::warning('No product ratings found!');
+
+            return 0;
+        }
+
+        $ratingsString = trim(str_replace(['.', ','], '', $ratingsString));
+
+        return (int) $ratingsString;
     }
 }
