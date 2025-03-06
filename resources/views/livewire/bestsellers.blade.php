@@ -9,58 +9,53 @@
         Tage
     </div>
     <div role="tablist" class="tabs tabs-box">
-        @foreach ($categories as $index => $value)
-            <a
-                @click="activeTab = {{ $index }}"
-                :class="{ 'tab-active': activeTab === {{ $index }} }"
-                class="tab"
-                wire:key="tab-{{ $index }}"
-            >
-                {{ $value["category"] }}
+        @foreach ($categories as $index => $category)
+            <a @click="activeTab = {{ $index }}" :class="{ 'tab-active': activeTab === {{ $index }} }"
+                class="tab" wire:key="tab-{{ $index }}">
+                {{ $category }}
             </a>
         @endforeach
     </div>
+    <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+        <legend class="fieldset-legend">Sortierung</legend>
+        <div class="flex gap-2">
+            <button class="btn btn-primary">Rang ↑</button>
+            <button class="btn btn-primary">Preis ↑</button>
+            <button class="btn btn-primary">Sterne ↑</button>
+            <button class="btn btn-primary">Bewertungen ↑</button>
+        </div>
+        <div class="flex gap-2">
+            <button class="btn btn-primary">Rang ↓</button>
+            <button class="btn btn-primary">Preis ↓</button>
+            <button class="btn btn-primary">Sterne ↓</button>
+            <button class="btn btn-primary">Bewertungen ↓</button>
+        </div>
+    </fieldset>
     @foreach (range(0, count($categories) - 1) as $index)
-        <div
-            x-show="activeTab === {{ $index }}"
-            class="bg-base-200 rounded-lg p-6 shadow-lg"
-            wire:key="content-{{ $index }}"
-        >
+        <div x-show="activeTab === {{ $index }}" class="bg-base-200 rounded-lg p-6 shadow-lg"
+            wire:key="content-{{ $index }}">
             <h2 class="mb-4 text-2xl font-bold">
-                Bestsellers in Kategorie
-                <i>{{ $categories[$index]["category"] }}</i>
+                Bestseller in Kategorie
+                <i>{{ $categories[$index] }}</i>
             </h2>
-
-            <ul class="list bg-base-100 rounded-box shadow-md">
-                @foreach ($categories[$index] as $product)
-                    <li class="list-row">
-                        <div class="text-4xl font-thin tabular-nums opacity-30">01</div>
-                        <div>
-                            <img
-                                class="rounded-box size-10"
-                                src="https://img.daisyui.com/images/profile/demo/1@94.webp"
-                            />
-                        </div>
-                        <div class="list-col-grow">
-                            <div>Dio Lupa</div>
-                            <div class="text-xs font-semibold uppercase opacity-60">Remaining Reason</div>
-                        </div>
-                        <button class="btn btn-square btn-ghost">
-                            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g
-                                    stroke-linejoin="round"
-                                    stroke-linecap="round"
-                                    stroke-width="2"
-                                    fill="none"
-                                    stroke="currentColor"
-                                >
-                                    <path d="M6 3L20 12 6 21 6 3z"></path>
-                                </g>
-                            </svg>
-                        </button>
-                    </li>
-                @endforeach
-            </ul>
+            <div class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Rang</th>
+                            <th>Artikel</th>
+                            <th>Sterne</th>
+                            <th>Bewertungen</th>
+                            <th>Preis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($productGroups[$categories[$index]] as $product)
+                            <livewire:bestseller-list-item :product="$product" />
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     @endforeach
 </div>

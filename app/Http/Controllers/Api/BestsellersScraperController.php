@@ -27,7 +27,6 @@ class BestsellersScraperController extends Controller
             return response()->noContent();
         } catch (\Exception $e) {
             return response()->json([
-                'success' => false,
                 'message' => 'Failed to fetch bestsellers: '.$e->getMessage(),
             ], 500);
         }
