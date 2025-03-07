@@ -10,8 +10,12 @@
     </div>
     <div role="tablist" class="tabs tabs-box">
         @foreach ($categories as $index => $category)
-            <a @click="activeTab = {{ $index }}" :class="{ 'tab-active': activeTab === {{ $index }} }"
-                class="tab" wire:key="tab-{{ $index }}">
+            <a
+                @click="activeTab = {{ $index }}"
+                :class="{ 'tab-active': activeTab === {{ $index }} }"
+                class="tab"
+                wire:key="tab-{{ $index }}"
+            >
                 {{ $category }}
             </a>
         @endforeach
@@ -32,8 +36,11 @@
         </div>
     </fieldset>
     @foreach (range(0, count($categories) - 1) as $index)
-        <div x-show="activeTab === {{ $index }}" class="bg-base-200 rounded-lg p-6 shadow-lg"
-            wire:key="content-{{ $index }}">
+        <div
+            x-show="activeTab === {{ $index }}"
+            class="bg-base-200 rounded-lg p-6 shadow-lg"
+            wire:key="content-{{ $index }}"
+        >
             <h2 class="mb-4 text-2xl font-bold">
                 Bestseller in Kategorie
                 <i>{{ $categories[$index] }}</i>
@@ -58,4 +65,9 @@
             </div>
         </div>
     @endforeach
+
+    <span class="text-sm">
+        Letzte Aktualisierung:
+        <i>{{ $lastUpdate }}</i>
+    </span>
 </div>

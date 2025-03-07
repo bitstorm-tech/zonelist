@@ -16,15 +16,18 @@ class Bestsellers extends Component
             return $product['category'];
         });
 
-        $this->products = $this->getProducts();
+        $this->products = $this->products();
+
+        $lastUpdate = $this->lastUpdate();
 
         return view('livewire.bestsellers', [
             'categories' => $categories,
             'productGroups' => $this->products,
+            'lastUpdate' => $lastUpdate,
         ]);
     }
 
-    private function getProducts(): array
+    private function products(): array
     {
         return Product::all()->mapToGroups(function ($product) {
             return [
@@ -32,5 +35,10 @@ class Bestsellers extends Component
             ];
         })->all();
 
+    }
+
+    private function lastUpdate(): string
+    {
+        return Product::select('created_at')->orderByDesc('created_at')->limit(1)->value('created_at');
     }
 }
