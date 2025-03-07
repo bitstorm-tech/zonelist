@@ -59,8 +59,6 @@ class BestsellersScraperService
 
         $products = $this->getBestsellers();
 
-        Log::info("Got {count($products)}");
-
         Product::unguard();
         foreach ($products as $product) {
             $product->save();
