@@ -1,43 +1,45 @@
-<div x-data="{ activeTab: 0 }" class="flex flex-col gap-6 p-8">
-    <div>
-        Die Bestseller der vergangenen
-        <select class="mx-2">
-            <option>7</option>
-            <option>14</option>
-            <option>30</option>
-        </select>
-        Tage
+<div x-data="{ activeCategory: '0', selectedSorting: '0', lastXDays: '7' }" class="flex flex-col gap-6 p-8">
+    <!-- --------------- -->
+    <!-- Header Controls -->
+    <!-- --------------- -->
+    <div class="flex gap-1">
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+            <legend class="fieldset-legend" x-text="`Bestseller der letzten ${lastXDays} Tage`"></legend>
+            <select class="select" x-model="lastXDays">
+                <option>7</option>
+                <option>14</option>
+                <option>30</option>
+            </select>
+        </fieldset>
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+            <legend class="fieldset-legend">Kategorien</legend>
+            <select class="select" x-model="activeCategory">
+                @foreach ($categories as $index => $category)
+                    <option value="{{ $index }}">{{ $category }}</option>
+                @endforeach
+            </select>
+        </fieldset>
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+            <legend class="fieldset-legend">Sortierung</legend>
+            <select class="select">
+                <option>Rang ↑</option>
+                <option>Rang ↓</option>
+                <option>Preis ↑</option>
+                <option>Preis ↓</option>
+                <option>Sterne ↑</option>
+                <option>Sterne ↓</option>
+                <option>Bewertungen ↑</option>
+                <option>Bewertungen ↓</option>
+            </select>
+        </fieldset>
     </div>
-    <div role="tablist" class="tabs tabs-box">
-        @foreach ($categories as $index => $category)
-            <a
-                @click="activeTab = {{ $index }}"
-                :class="{ 'tab-active': activeTab === {{ $index }} }"
-                class="tab"
-                wire:key="tab-{{ $index }}"
-            >
-                {{ $category }}
-            </a>
-        @endforeach
-    </div>
-    <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-        <legend class="fieldset-legend">Sortierung</legend>
-        <div class="flex gap-2">
-            <button class="btn btn-primary">Rang ↑</button>
-            <button class="btn btn-primary">Preis ↑</button>
-            <button class="btn btn-primary">Sterne ↑</button>
-            <button class="btn btn-primary">Bewertungen ↑</button>
-        </div>
-        <div class="flex gap-2">
-            <button class="btn btn-primary">Rang ↓</button>
-            <button class="btn btn-primary">Preis ↓</button>
-            <button class="btn btn-primary">Sterne ↓</button>
-            <button class="btn btn-primary">Bewertungen ↓</button>
-        </div>
-    </fieldset>
+
+    <!-- ------------- -->
+    <!-- Category List -->
+    <!-- ------------- -->
     @foreach (range(0, count($categories) - 1) as $index)
         <div
-            x-show="activeTab === {{ $index }}"
+            x-show="activeCategory === '{{ $index }}'"
             class="bg-base-200 rounded-lg p-6 shadow-lg"
             wire:key="content-{{ $index }}"
         >
@@ -66,6 +68,9 @@
         </div>
     @endforeach
 
+    <!-- ----------- -->
+    <!-- Last Update -->
+    <!-- ----------- -->
     <span class="text-sm">
         Letzte Aktualisierung:
         <i>{{ $lastUpdate }}</i>
