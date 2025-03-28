@@ -19,7 +19,7 @@ class BestsellerListItem extends Component
 
     public function ratings(): string
     {
-        return $this->product['ratings'];
+        return number_format($this->product['ratings'], thousands_separator: '.');
     }
 
     public function stars(): string
