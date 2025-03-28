@@ -10,6 +10,6 @@
         </div>
         <div>{{ $this->price() }}</div>
     </div>
-    <div class="m-4 block border p-10 py-72">Image</div>
-    <a class="btn btn-primary m-4" href="amazone.de">zum Produkt</a>
+    <div class="m-4 block border border-gray-100/10 p-10 py-52 text-center">Image</div>
+    <a class="btn m-4 bg-orange-400 text-black" href="https://amazon.de" target="_blank">zum Produkt</a>
 </div>

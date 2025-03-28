@@ -1,4 +1,4 @@
-<div x-data="{ activeCategory: '0', selectedSorting: '0', lastXDays: '7' }" class="flex flex-col gap-6 p-8">
+<div x-data="{ activeCategory: '0', selectedSorting: '0', lastXDays: '7' }" class="flex flex-col gap-6 p-2">
     <!-- --------------- -->
     <!-- Header Controls -->
     <!-- --------------- -->
