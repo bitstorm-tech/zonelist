@@ -29,7 +29,7 @@ class Bestsellers extends Component
 
     private function products(): array
     {
-        return Product::all()->mapToGroups(function ($product) {
+        return Product::where('created_at', Product::max('created_at'))->get()->mapToGroups(function ($product) {
             return [
                 $product['category'] => $product,
             ];
