@@ -1,4 +1,4 @@
-<div class="flex flex-col rounded-md border text-base">
+<div class="flex flex-col rounded-md border text-base" wire:key="$this->title()">
     <div class="flex items-start">
         <div class="rounded-br-3xl border-r border-b p-3">{{ $this->rank() }}</div>
         <span class="p-2"><b>{{ $this->title() }}</b></span>

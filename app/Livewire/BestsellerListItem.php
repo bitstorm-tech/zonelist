@@ -35,13 +35,12 @@ class BestsellerListItem extends Component
     public function rank(): string
     {
         $rank = $this->product['rank'];
-        $rankString = "$rank";
 
         if ($rank < 10) {
-            $rankString = "0$rankString";
+            return "0$rank";
         }
 
-        return $rankString;
+        return $rank;
     }
 
     public function render()

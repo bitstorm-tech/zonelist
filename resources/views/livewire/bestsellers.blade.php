@@ -1,4 +1,4 @@
-<div x-data="{ activeCategory: '0', selectedSorting: '0', lastXDays: '7' }" class="flex flex-col gap-6 p-2">
+<div id="top" class="flex flex-col gap-6 p-2">
     <!-- --------------- -->
     <!-- Header Controls -->
     <!-- --------------- -->
@@ -13,15 +13,15 @@
         {{-- </fieldset> --}}
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend class="fieldset-legend">Kategorien</legend>
-            <select class="select" x-model="activeCategory">
-                @foreach ($categories as $index => $category)
-                    <option value="{{ $index }}">{{ $category }}</option>
+            <select class="select" wire:model="activeCategory">
+                @foreach ($allCategories as $category)
+                    <option value="{{ $category }}">{{ $category }}</option>
                 @endforeach
             </select>
         </fieldset>
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend class="fieldset-legend">Sortierung</legend>
-            <select class="select">
+            <select class="select" wire:model="orderBy">
                 <option>Rang ↑</option>
                 <option>Rang ↓</option>
                 <option>Preis ↑</option>
@@ -37,21 +37,24 @@
     <!-- ------------- -->
     <!-- Category List -->
     <!-- ------------- -->
-    @foreach (range(0, count($categories) - 1) as $index)
-        <fieldset
-            class="fieldset bg-base-200 border-base-300 rounded-box grid-cols-1 gap-4 border p-4 lg:grid-cols-2 2xl:grid-cols-3"
-            x-show="activeCategory === '{{ $index }}'"
-            wire:key="content-{{ $index }}"
-        >
-            <legend class="fieldset-legend text-2xl">
-                Bestseller in Kategorie
-                <i>{{ $categories[$index] }}</i>
-            </legend>
-            @foreach ($productGroups[$categories[$index]] as $product)
-                <livewire:bestseller-list-item :product="$product" />
-            @endforeach
-        </fieldset>
-    @endforeach
+    <fieldset
+        class="fieldset bg-base-200 border-base-300 rounded-box grid-cols-1 gap-4 border p-4 lg:grid-cols-2 2xl:grid-cols-3"
+    >
+        <legend class="fieldset-legend text-xl">
+            Bestseller in Kategorie
+            <i>{{ $activeCategory }}</i>
+        </legend>
+        @foreach ($this->productsOfActiveCategory() as $product)
+            <livewire:bestseller-list-item :product="$product" />
+        @endforeach
+    </fieldset>
+
+    <!-- --------- -->
+    <!-- Up Button -->
+    <!-- --------- -->
+    <div class="sticky bottom-3 flex justify-end">
+        <a class="btn btn-primary rounded-full text-xl" href="#top">↑</a>
+    </div>
 
     <!-- ----------- -->
     <!-- Last Update -->

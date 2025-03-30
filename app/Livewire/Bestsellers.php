@@ -4,41 +4,51 @@ namespace App\Livewire;
 
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Bestsellers extends Component
 {
-    private $products = [];
+    public $allCategories = [];
+
+    public string $orderBy;
+
+    public string $activeCategory;
+
+    public string $lastUpdate;
+
+    public function mount()
+    {
+        $this->allCategories = Product::select('category')->distinct()->pluck('category')->toArray();
+
+        $this->activeCategory = $this->allCategories[0];
+
+        $this->lastUpdate = $this->lastUpdate();
+
+    }
+
+    public function productsOfActiveCategory(): Collection
+    {
+        Log::debug('productsOfActiveCategory: '.$this->activeCategory);
+
+        $products = Product::select()
+            ->where('created_at', Product::max('created_at'))
+            ->where('category', $this->activeCategory)
+            ->get();
+
+        Log::debug('Products: '.$products->count());
+
+        return $products;
+    }
+
+    public function lastUpdate(): string
+    {
+        return Product::select('created_at')->orderByDesc('created_at')->limit(1)->value('created_at');
+    }
 
     public function render(): View
     {
-        $categories = Product::select('category')->distinct()->get()->map(function ($product) {
-            return $product['category'];
-        });
-
-        $this->products = $this->products();
-
-        $lastUpdate = $this->lastUpdate();
-
-        return view('livewire.bestsellers', [
-            'categories' => $categories,
-            'productGroups' => $this->products,
-            'lastUpdate' => $lastUpdate,
-        ]);
-    }
-
-    private function products(): array
-    {
-        return Product::where('created_at', Product::max('created_at'))->get()->mapToGroups(function ($product) {
-            return [
-                $product['category'] => $product,
-            ];
-        })->all();
-
-    }
-
-    private function lastUpdate(): string
-    {
-        return Product::select('created_at')->orderByDesc('created_at')->limit(1)->value('created_at');
+        return view('livewire.bestsellers');
     }
 }
