@@ -13,7 +13,7 @@
         {{-- </fieldset> --}}
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend class="fieldset-legend">Kategorien</legend>
-            <select class="select" wire:model="activeCategory">
+            <select class="select" wire:model.live="activeCategory">
                 @foreach ($allCategories as $category)
                     <option value="{{ $category }}">{{ $category }}</option>
                 @endforeach
@@ -34,20 +34,14 @@
         </fieldset>
     </div>
 
-    <!-- ------------- -->
-    <!-- Category List -->
-    <!-- ------------- -->
-    <fieldset
-        class="fieldset bg-base-200 border-base-300 rounded-box grid-cols-1 gap-4 border p-4 lg:grid-cols-2 2xl:grid-cols-3"
-    >
-        <legend class="fieldset-legend text-xl">
-            Bestseller in Kategorie
-            <i>{{ $activeCategory }}</i>
-        </legend>
+    <!-- ------------ -->
+    <!-- Product List -->
+    <!-- ------------ -->
+    <ul class="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3">
         @foreach ($this->productsOfActiveCategory() as $product)
-            <livewire:bestseller-list-item :product="$product" />
+            <livewire:bestseller-list-item :$product wire:key="{{ $product->id }}" />
         @endforeach
-    </fieldset>
+    </ul>
 
     <!-- --------- -->
     <!-- Up Button -->
