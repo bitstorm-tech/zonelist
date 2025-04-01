@@ -22,19 +22,33 @@ class Bestsellers extends Component
         $this->allCategories = Product::select('category')->distinct()->pluck('category')->toArray();
 
         $this->activeCategory = $this->allCategories[0];
+        $this->orderBy = 'Rang ↑';
 
         $this->lastUpdate = $this->lastUpdate();
-
     }
 
     public function productsOfActiveCategory(): Collection
     {
         Log::debug('productsOfActiveCategory: '.$this->activeCategory);
 
-        $products = Product::select()
+        $query = Product::select()
             ->where('created_at', Product::max('created_at'))
-            ->where('category', $this->activeCategory)
-            ->get();
+            ->where('category', $this->activeCategory);
+
+        [$orderColumn, $orderDirection] = match ($this->orderBy) {
+            'Rang ↑' => ['rank', 'asc'],
+            'Rang ↓' => ['rank', 'desc'],
+            'Preis ↑' => ['price', 'asc'],
+            'Preis ↓' => ['price', 'desc'],
+            'Sterne ↑' => ['stars', 'asc'],
+            'Sterne ↓' => ['stars', 'desc'],
+            'Bewertungen ↑' => ['reviews', 'asc'],
+            'Bewertungen ↓' => ['reviews', 'desc'],
+            default => ['rank', 'asc'],
+        };
+        $query->orderBy($orderColumn, $orderDirection);
+
+        $products = $query->get();
 
         Log::debug('Products: '.$products->count());
 

@@ -21,7 +21,7 @@
         </fieldset>
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend class="fieldset-legend">Sortierung</legend>
-            <select class="select" wire:model="orderBy">
+            <select class="select" wire:model.live="orderBy">
                 <option>Rang ↑</option>
                 <option>Rang ↓</option>
                 <option>Preis ↑</option>

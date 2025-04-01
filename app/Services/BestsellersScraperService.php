@@ -228,4 +228,11 @@ class BestsellersScraperService
 
         return (int) $ratingsString;
     }
+
+    private function extractImageUrl(DOMElement $productNode, DOMXPath $xpath): string
+    {
+        $query = 'PUT_YOUR_XPATH_QUERY_HERE'; // Update this XPath query accordingly
+        $nodes = $xpath->query($query, $productNode);
+        return $nodes->length > 0 ? trim($nodes->item(0)->nodeValue) : '';
+    }
 }
