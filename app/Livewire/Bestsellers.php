@@ -9,6 +9,17 @@ use Livewire\Component;
 
 class Bestsellers extends Component
 {
+    public array $orderOptions = [
+        'Rang ↑',
+        'Rang ↓',
+        'Preis ↑',
+        'Preis ↓',
+        'Sterne ↑',
+        'Sterne ↓',
+        'Bewertungen ↑',
+        'Bewertungen ↓',
+    ];
+
     public $allCategories = [];
 
     public string $orderBy;
@@ -22,7 +33,8 @@ class Bestsellers extends Component
         $this->allCategories = Product::select('category')->distinct()->pluck('category')->toArray();
 
         $this->activeCategory = $this->allCategories[0];
-        $this->orderBy = 'Rang ↑';
+
+        $this->orderBy = $this->orderOptions[0];
 
         $this->lastUpdate = $this->lastUpdate();
     }

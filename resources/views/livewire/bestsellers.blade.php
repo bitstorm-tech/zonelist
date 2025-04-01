@@ -15,21 +15,16 @@
             <legend class="fieldset-legend">Kategorien</legend>
             <select class="select" wire:model.live="activeCategory">
                 @foreach ($allCategories as $category)
-                    <option value="{{ $category }}">{{ $category }}</option>
+                    <option>{{ $category }}</option>
                 @endforeach
             </select>
         </fieldset>
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend class="fieldset-legend">Sortierung</legend>
             <select class="select" wire:model.live="orderBy">
-                <option>Rang ↑</option>
-                <option>Rang ↓</option>
-                <option>Preis ↑</option>
-                <option>Preis ↓</option>
-                <option>Sterne ↑</option>
-                <option>Sterne ↓</option>
-                <option>Bewertungen ↑</option>
-                <option>Bewertungen ↓</option>
+                @foreach ($orderOptions as $index => $option)
+                    <option>{{ $option }}</option>
+                @endforeach
             </select>
         </fieldset>
     </div>
