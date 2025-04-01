@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Product;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -45,10 +44,5 @@ class Bestsellers extends Component
     public function lastUpdate(): string
     {
         return Product::select('created_at')->orderByDesc('created_at')->limit(1)->value('created_at');
-    }
-
-    public function render(): View
-    {
-        return view('livewire.bestsellers');
     }
 }

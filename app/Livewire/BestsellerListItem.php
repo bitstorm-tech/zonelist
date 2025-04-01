@@ -42,9 +42,4 @@ class BestsellerListItem extends Component
 
         return $rank;
     }
-
-    public function render()
-    {
-        return view('livewire.bestseller-list-item');
-    }
 }
