@@ -32,6 +32,11 @@ class BestsellerListItem extends Component
         return $this->product['title'];
     }
 
+    public function imageUrl(): string
+    {
+        return $this->product['imageUrl'];
+    }
+
     public function rank(): string
     {
         $rank = $this->product['rank'];

@@ -10,6 +10,6 @@
         </div>
         <div>{{ $this->price() }}</div>
     </div>
-    <div class="m-4 block rounded border border-gray-100/10 p-10 py-52 text-center">Image</div>
+    <img src="{{ $this->imageUrl() }}" alt="Product image" class="mx-14" />
     <a class="btn m-4 bg-orange-400 text-black" href="https://amazon.de" target="_blank">zum Produkt</a>
 </li>

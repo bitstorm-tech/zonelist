@@ -19,33 +19,33 @@ class BestsellersScraperService
         'Auto & Motorrad' => '/automotive',
         'Baby' => '/baby',
         'Baumarkt' => '/diy',
-        // 'Beleuchtung' => '/lighting',
-        // 'Bücher' => '/books',
-        // 'Bürobedarf & Schreibwaren' => '/officeproduct',
-        // 'Climate Pledge Friendly' => '/climate-pledge',
-        // 'Computer & Zubehör' => '/computers',
-        // 'Drogerie & Körperpflege' => '/drugstore',
-        // 'DVD & Blu-ray' => '/dvd-de',
-        // 'Elektro-Großgeräte' => '/appliances',
-        // 'Elektronik & Foto' => '/fashion',
-        // 'Fashion' => '/fashion',
-        // 'Games' => '/videogames',
-        // 'Garten' => '/garden',
-        // 'Geschenkgutscheine' => '/gift-cards',
-        // 'Gewerbe, Industrie & Wissenschaft' => '/industrial',
-        // 'Handmade-Produkte' => '/handmade',
-        // 'Haustier' => '/pet-supplies',
-        // 'Kamera & Foto' => '/photo',
-        // 'Kosmetik' => '/beauty',
-        // 'Küche, Haushalt & Wohnen' => '/kitchen',
-        // 'Lebensmittel & Getränke' => '/grocery',
-        // 'Musik-CDs & Vinyl' => '/music',
-        // 'Musikinstrumente & DJ-Equipment' => '/musical-instruments',
-        // 'Neue Fundstücke' => '/boost',
-        // 'Prime Video' => '/instant-video',
-        // 'Software' => '/software',
-        // 'Spielzeug' => '/toys',
-        // 'Sport & Freizeit' => '/sports',
+        'Beleuchtung' => '/lighting',
+        'Bücher' => '/books',
+        'Bürobedarf & Schreibwaren' => '/officeproduct',
+        'Climate Pledge Friendly' => '/climate-pledge',
+        'Computer & Zubehör' => '/computers',
+        'Drogerie & Körperpflege' => '/drugstore',
+        'DVD & Blu-ray' => '/dvd-de',
+        'Elektro-Großgeräte' => '/appliances',
+        'Elektronik & Foto' => '/fashion',
+        'Fashion' => '/fashion',
+        'Games' => '/videogames',
+        'Garten' => '/garden',
+        'Geschenkgutscheine' => '/gift-cards',
+        'Gewerbe, Industrie & Wissenschaft' => '/industrial',
+        'Handmade-Produkte' => '/handmade',
+        'Haustier' => '/pet-supplies',
+        'Kamera & Foto' => '/photo',
+        'Kosmetik' => '/beauty',
+        'Küche, Haushalt & Wohnen' => '/kitchen',
+        'Lebensmittel & Getränke' => '/grocery',
+        'Musik-CDs & Vinyl' => '/music',
+        'Musikinstrumente & DJ-Equipment' => '/musical-instruments',
+        'Neue Fundstücke' => '/boost',
+        'Prime Video' => '/instant-video',
+        'Software' => '/software',
+        'Spielzeug' => '/toys',
+        'Sport & Freizeit' => '/sports',
     ];
 
     public function __construct()
@@ -125,6 +125,8 @@ class BestsellersScraperService
             $product->price = $this->extractProductPrice($productNode, $xpath);
             $product->stars = $this->extractProductStars($productNode, $xpath);
             $product->ratings = $this->extractProductRatings($productNode, $xpath);
+            $product->imageUrl = $this->extractImageUrl($productNode, $xpath);
+            $product->url = $this->extractProductUrl($productNode, $xpath);
 
             array_push($products, $product);
         }
@@ -231,8 +233,30 @@ class BestsellersScraperService
 
     private function extractImageUrl(DOMElement $productNode, DOMXPath $xpath): string
     {
+        $imgNode = $xpath->query('./div/div/div[2]/span/div/a/div/img', $productNode);
+
+        if ($imgNode->length === 0) {
+            Log::warning('Product has no image!');
+
+            return '';
+        }
+
+        $imageUrl = $imgNode->item(0)->attributes->getNamedItem('src')->nodeValue;
+
+        if (strlen($imageUrl) == 0) {
+            Log::warning('No product image found!');
+
+            return '';
+        }
+
+        return $imageUrl;
+    }
+
+    private function extractProductUrl(DOMElement $productNode, DOMXPath $xpath): string
+    {
         $query = 'PUT_YOUR_XPATH_QUERY_HERE'; // Update this XPath query accordingly
         $nodes = $xpath->query($query, $productNode);
+
         return $nodes->length > 0 ? trim($nodes->item(0)->nodeValue) : '';
     }
 }
