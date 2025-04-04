@@ -30,9 +30,9 @@ class Bestsellers extends Component
 
     public function mount()
     {
-        $this->allCategories = Product::select('category')->orderBy('category')->distinct()->pluck('category')->toArray();
+        $this->allCategories = Product::select('category')->orderBy('category')->distinct()->pluck('category')->toArray() ?? [];
 
-        $this->activeCategory = $this->allCategories[0];
+        $this->activeCategory = $this->allCategories[0] ?? '';
 
         $this->orderBy = $this->orderOptions[0];
 
@@ -44,7 +44,7 @@ class Bestsellers extends Component
         Log::debug('productsOfActiveCategory: '.$this->activeCategory);
 
         $query = Product::select()
-            ->where('created_at', Product::max('created_at'))
+            ->where('run', Product::max('run'))
             ->where('category', $this->activeCategory);
 
         [$orderColumn, $orderDirection] = match ($this->orderBy) {
@@ -69,6 +69,6 @@ class Bestsellers extends Component
 
     public function lastUpdate(): string
     {
-        return Product::select('created_at')->orderByDesc('created_at')->limit(1)->value('created_at');
+        return Product::select('created_at')->orderByDesc('created_at')->limit(1)->value('created_at') ?? 'n/a';
     }
 }

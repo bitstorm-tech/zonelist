@@ -59,7 +59,6 @@ class BestsellersScraperService
 
         $products = $this->getBestsellers();
 
-        Product::unguard();
         foreach ($products as $product) {
             $product->save();
         }
@@ -71,13 +70,15 @@ class BestsellersScraperService
     {
         $products = [];
 
+        $run = $this->getNewRunNumber();
+
         foreach ($this->categorySubUrls as $categoryName => $subUrl) {
             $url = "{$this->amazonBaseUrl}{$subUrl}";
             $html = $this->fetchPage($url);
             $dom = new DOMDocument;
             $dom->loadHTML($html);
             $xpath = new DOMXPath($dom);
-            $productsOfCategory = $this->getProductsOfCategory($categoryName, $xpath);
+            $productsOfCategory = $this->getProductsOfCategory($categoryName, $xpath, $run);
 
             $count = count($productsOfCategory);
 
@@ -87,6 +88,13 @@ class BestsellersScraperService
         }
 
         return $products;
+    }
+
+    private function getNewRunNumber(): int
+    {
+        $previousRun = Product::select('run')->orderBy('run')->limit(1)->value('run') ?? 0;
+
+        return $previousRun + 1;
     }
 
     private function fetchPage(string $url): string
@@ -111,7 +119,7 @@ class BestsellersScraperService
         return $response->getBody()->getContents();
     }
 
-    private function getProductsOfCategory(string $categoryName, DOMXPath $xpath): array
+    private function getProductsOfCategory(string $categoryName, DOMXPath $xpath, int $run): array
     {
         $products = [];
 
@@ -119,6 +127,7 @@ class BestsellersScraperService
 
         foreach ($productNodes as $productNode) {
             $product = new Product;
+            $product->run = $run;
             $product->category = $categoryName;
             $product->rank = $this->extractProductRanking($productNode, $xpath);
             $product->title = $this->extractProductTitle($productNode, $xpath);
@@ -254,9 +263,22 @@ class BestsellersScraperService
 
     private function extractProductUrl(DOMElement $productNode, DOMXPath $xpath): string
     {
-        $query = 'PUT_YOUR_XPATH_QUERY_HERE'; // Update this XPath query accordingly
-        $nodes = $xpath->query($query, $productNode);
+        $urlNode = $xpath->query('./div/div/div[2]/span/div/div/div/a', $productNode);
 
-        return $nodes->length > 0 ? trim($nodes->item(0)->nodeValue) : '';
+        if ($urlNode->length === 0) {
+            Log::warning('Product has no url!');
+
+            return '';
+        }
+
+        $productUrl = $urlNode->item(0)->attributes->getNamedItem('href')->nodeValue;
+
+        if (strlen($productUrl) == 0) {
+            Log::warning('No product url found!');
+
+            return '';
+        }
+
+        return $productUrl;
     }
 }

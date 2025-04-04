@@ -11,5 +11,5 @@
         <div>{{ $this->price() }}</div>
     </div>
     <img src="{{ $this->imageUrl() }}" alt="Product image" class="mx-14" />
-    <a class="btn m-4 bg-orange-400 text-black" href="https://amazon.de" target="_blank">zum Produkt</a>
+    <a class="btn m-4 bg-orange-400 text-black" href="{{ $this->productUrl() }}" target="_blank">zum Produkt</a>
 </li>

@@ -37,6 +37,11 @@ class BestsellerListItem extends Component
         return $this->product['imageUrl'];
     }
 
+    public function productUrl(): string
+    {
+        return 'https://amazon.de'.$this->product['url'];
+    }
+
     public function rank(): string
     {
         $rank = $this->product['rank'];
