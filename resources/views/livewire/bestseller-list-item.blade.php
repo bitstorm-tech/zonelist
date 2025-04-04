@@ -6,7 +6,7 @@
     <div class="mx-4 flex justify-between p-4">
         <div class="flex items-center gap-2">
             <livewire:rating-stars stars="{{ $this->stars() }}" />
-            <div class="text-xs">({{ $this->ratings() }})</div>
+            <div class="text-xs">({{ $this->reviews() }})</div>
         </div>
         <div>{{ $this->price() }}</div>
     </div>

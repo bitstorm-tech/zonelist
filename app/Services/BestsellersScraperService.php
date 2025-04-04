@@ -133,7 +133,7 @@ class BestsellersScraperService
             $product->title = $this->extractProductTitle($productNode, $xpath);
             $product->price = $this->extractProductPrice($productNode, $xpath);
             $product->stars = $this->extractProductStars($productNode, $xpath);
-            $product->ratings = $this->extractProductRatings($productNode, $xpath);
+            $product->reviews = $this->extractProductReviews($productNode, $xpath);
             $product->imageUrl = $this->extractImageUrl($productNode, $xpath);
             $product->url = $this->extractProductUrl($productNode, $xpath);
 
@@ -217,27 +217,27 @@ class BestsellersScraperService
         return (float) str_replace(',', '.', $starsStringParts[0]);
     }
 
-    private function extractProductRatings(DOMElement $productNode, DOMXPath $xpath): int
+    private function extractProductReviews(DOMElement $productNode, DOMXPath $xpath): int
     {
-        $ratingsNode = $xpath->query('./div/div/div[2]/span/div/div/div/div[1]/div/a/span', $productNode);
+        $reviewsNode = $xpath->query('./div/div/div[2]/span/div/div/div/div[1]/div/a/span', $productNode);
 
-        if ($ratingsNode->length === 0) {
-            Log::warning('Product has no ratings!');
-
-            return 0;
-        }
-
-        $ratingsString = $ratingsNode->item(0)->nodeValue;
-
-        if (strlen($ratingsString) == 0) {
-            Log::warning('No product ratings found!');
+        if ($reviewsNode->length === 0) {
+            Log::warning('Product has no reviews!');
 
             return 0;
         }
 
-        $ratingsString = trim(str_replace(['.', ','], '', $ratingsString));
+        $reviewsString = $reviewsNode->item(0)->nodeValue;
 
-        return (int) $ratingsString;
+        if (strlen($reviewsString) == 0) {
+            Log::warning('No product reviews found!');
+
+            return 0;
+        }
+
+        $reviewsString = trim(str_replace(['.', ','], '', $reviewsString));
+
+        return (int) $reviewsString;
     }
 
     private function extractImageUrl(DOMElement $productNode, DOMXPath $xpath): string

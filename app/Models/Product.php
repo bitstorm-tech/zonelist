@@ -14,7 +14,7 @@ class Product extends Model
         'price',
         'imageUrl',
         'stars',
-        'ratings',
+        'reviews',
         'url',
     ];
 
@@ -31,7 +31,7 @@ class Product extends Model
         'price' => 0,
         'imageUrl' => '',
         'stars' => 0,
-        'ratings' => 0,
+        'reviews' => 0,
         'url' => '',
     ];
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('price')->nullable(false);
             $table->string('imageUrl')->nullable(false);
             $table->decimal('stars', 2, 1)->nullable(false);
-            $table->integer('ratings')->nullable(false);
+            $table->integer('reviews')->nullable(false);
             $table->string('url')->nullable(false);
             $table->timestamps();
         });

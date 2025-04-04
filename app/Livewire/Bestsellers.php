@@ -30,7 +30,11 @@ class Bestsellers extends Component
 
     public function mount()
     {
-        $this->allCategories = Product::select('category')->orderBy('category')->distinct()->pluck('category')->toArray() ?? [];
+        $this->allCategories = Product::select('category')
+            ->orderBy('category')
+            ->distinct()
+            ->pluck('category')
+            ->toArray() ?? [];
 
         $this->activeCategory = $this->allCategories[0] ?? '';
 
@@ -45,7 +49,8 @@ class Bestsellers extends Component
 
         $query = Product::select()
             ->where('run', Product::max('run'))
-            ->where('category', $this->activeCategory);
+            ->where('category', $this->activeCategory)
+            ->orderBy('category');
 
         [$orderColumn, $orderDirection] = match ($this->orderBy) {
             'Rang ↑' => ['rank', 'asc'],

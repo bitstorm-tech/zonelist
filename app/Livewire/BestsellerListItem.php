@@ -17,9 +17,9 @@ class BestsellerListItem extends Component
         return substr($priceString, 0, $splitPosition).','.substr($priceString, $splitPosition).' €';
     }
 
-    public function ratings(): string
+    public function reviews(): string
     {
-        return number_format($this->product['ratings'], thousands_separator: '.');
+        return number_format($this->product['reviews'], thousands_separator: '.');
     }
 
     public function stars(): string
