@@ -41,7 +41,7 @@
     <!-- --------- -->
     <!-- Up Button -->
     <!-- --------- -->
-    <div class="sticky bottom-3 flex justify-end">
+    <div class="sticky bottom-3 left-3">
         <a class="btn btn-primary rounded-full text-xl" href="#top">↑</a>
     </div>
 
