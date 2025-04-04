@@ -30,7 +30,7 @@ class Bestsellers extends Component
 
     public function mount()
     {
-        $this->allCategories = Product::select('category')->distinct()->pluck('category')->toArray();
+        $this->allCategories = Product::select('category')->orderBy('category')->distinct()->pluck('category')->toArray();
 
         $this->activeCategory = $this->allCategories[0];
 
