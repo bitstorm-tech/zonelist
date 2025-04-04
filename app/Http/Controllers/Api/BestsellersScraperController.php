@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Product;
 use App\Services\BestsellersScraperService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -19,7 +18,6 @@ class BestsellersScraperController extends Controller
         try {
             $products = $this->scraperService->getBestsellers();
 
-            Product::unguard();
             foreach ($products as $product) {
                 $product->save();
             }
