@@ -1,4 +1,4 @@
-<div id="top" class="flex flex-col gap-6 p-2">
+<div class="flex flex-col gap-6 p-2">
     <!-- --------------- -->
     <!-- Header Controls -->
     <!-- --------------- -->
@@ -41,8 +41,8 @@
     <!-- --------- -->
     <!-- Up Button -->
     <!-- --------- -->
-    <div class="sticky bottom-3 left-3">
-        <a class="btn btn-primary rounded-full text-xl" href="#top">↑</a>
+    <div class="fixed right-8 bottom-4">
+        <a class="btn btn-primary text-xl" href="#top">↑</a>
     </div>
 
     <!-- ----------- -->
